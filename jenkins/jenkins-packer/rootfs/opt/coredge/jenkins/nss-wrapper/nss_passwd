@@ -1,0 +1,1 @@
+jenkins:x:1001:0:Jenkins:/opt/coredge/jenkins/jenkins_home:/bin/false

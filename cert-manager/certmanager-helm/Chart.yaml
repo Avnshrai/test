@@ -1,0 +1,19 @@
+annotations:
+  category: CertificateAuthority
+  licenses: Apache-2.0
+apiVersion: v2
+appVersion: 1.12.2
+dependencies:
+- name: common
+  repository: "file://components/common"
+  version: 2.4.0
+description: cert-manager is a Kubernetes add-on to automate the management and issuance of TLS certificates from various issuing sources.
+keywords:
+- go
+- security
+- tls
+- certificate
+maintainers:
+- name: Coredgeio
+name: cert-manager
+version: 0.11.5

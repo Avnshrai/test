@@ -1,0 +1,17 @@
+annotations:
+  category: Infrastructure
+  licenses: Apache-2.0
+apiVersion: v2
+appVersion: 1.6.21
+dependencies:
+- name: common
+  repository: 'file://components/common'
+  version: 2.5.0
+description: Memcached is an high-performance, distributed memory object caching system,
+  generic in nature, but intended for use in speeding up dynamic web applications
+  by alleviating database load.
+keywords:
+- memcached
+- cache
+name: memcached
+version: 6.5.4

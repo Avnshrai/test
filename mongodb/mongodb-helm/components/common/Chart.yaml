@@ -1,0 +1,16 @@
+annotations:
+  category: Infrastructure
+  licenses: Apache-2.0
+apiVersion: v2
+appVersion: 2.4.0
+description: A Library Helm Chart for grouping common logic via templates. This chart is not deployable by itself.
+keywords:
+- common
+- helper
+- template
+- function
+maintainers:
+- name: Coredge.io
+name: common
+type: library
+version: 2.4.0

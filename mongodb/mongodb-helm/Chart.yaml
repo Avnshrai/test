@@ -1,0 +1,21 @@
+annotations:
+  category: Database
+  licenses: Apache-2.0
+apiVersion: v2
+appVersion: 6.0.6
+dependencies:
+- name: common
+  repository: "file://components/common"
+  version: 2.4.0
+description: MongoDB(R) is a relational open source NoSQL database. Easy to use, it stores data in JSON-like documents. Automated scalability and high-performance. Ideal for developing cloud native applications.
+keywords:
+  - mongodb
+  - database
+  - nosql
+  - cluster
+  - replicaset
+  - replication
+maintainers:
+  - name: Coredge.io
+name: mongodb
+version: 6.0.6

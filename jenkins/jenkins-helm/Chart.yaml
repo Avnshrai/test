@@ -1,0 +1,23 @@
+annotations:
+  category: Infrastructure
+  licenses: Apache-2.0
+apiVersion: v2
+appVersion: 2.401.1
+dependencies:
+- name: common
+  repository: file://components/common
+  version: 2.4.0
+description: Jenkins is an open source Continuous Integration and Continuous Delivery
+  (CI/CD) server designed to automate the building, testing, and deploying of any
+  software project.
+keywords:
+- jenkins
+- ci
+- cd
+- http
+- web
+- application
+maintainers:
+- name: Coredge
+name: jenkins
+version: 12.2.2

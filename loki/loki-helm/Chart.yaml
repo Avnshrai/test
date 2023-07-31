@@ -1,0 +1,32 @@
+annotations:
+  category: Infrastructure
+  licenses: Apache-2.0
+apiVersion: v2
+appVersion: 2.8.2
+dependencies:
+  - alias: memcachedchunks
+    condition: memcachedchunks.enabled
+    name: memcached
+    repository: 'file://components/memcached'
+    version: 6.5.4
+  - alias: memcachedfrontend
+    condition: memcachedfrontend.enabled
+    name: memcached
+    repository: 'file://components/memcached'
+    version: 6.5.4
+  - alias: memcachedindexqueries
+    condition: memcachedindexqueries.enabled
+    name: memcached
+    repository: 'file://components/memcached'
+    version: 6.5.4
+  - alias: memcachedindexwrites
+    condition: memcachedindexwrites.enabled
+    name: memcached
+    repository: 'file://components/memcached'
+    version: 6.5.4
+  - name: common
+    repository: 'file://components/common'
+    version: 2.5.0
+description: Grafana Loki is a horizontally scalable, highly available, and multi-tenant log aggregation system. It provides real-time long tailing and full persistence to object storage.
+name: grafana-loki
+version: 2.10.0

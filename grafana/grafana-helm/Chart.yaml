@@ -1,0 +1,19 @@
+annotations:
+  category: Analytics
+  licenses: Apache-2.0
+apiVersion: v2
+appVersion: 9.5.3
+dependencies:
+- name: common
+  repository: "file://components/common"
+  version: 2.4.0
+description: Grafana is an open source metric analytics and visualization suite for visualizing time series data that supports various types of data sources.
+keywords:
+- analytics
+- monitoring
+- metrics
+- logs
+maintainers:
+- name: Coredge.io
+name: grafana
+version: 8.4.5

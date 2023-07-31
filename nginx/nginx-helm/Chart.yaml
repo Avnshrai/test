@@ -1,0 +1,14 @@
+annotations:
+  category: Infrastructure
+  licenses: Apache-2.0
+apiVersion: v2
+appVersion: 1.25.1
+dependencies:
+  - name: common
+    repository: "file://components/common"
+    version: 2.4.0
+description: NGINX Open Source is a web server that can be also used as a reverse proxy, load balancer, and HTTP cache. Recommended for high-demanding sites due to its ability to provide faster content.
+maintainers:
+- name: Coredge.io
+name: nginx
+version: 1.24.0

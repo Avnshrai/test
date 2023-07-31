@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "common.names.fullname" . }}-envvars
+  namespace: {{ .Release.Namespace | quote }}
+  labels: {{- include "common.labels.standard" . | nindent 4 }}
+    {{- if .Values.commonLabels }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.commonLabels "context" $ ) | nindent 4 }}
+    {{- end }}
+    app.kubernetes.io/component: grafana
+  {{- if .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  {{- end }}
+data:
+  GF_SECURITY_ADMIN_USER: {{ .Values.admin.user | quote }}
+  {{- if .Values.imageRenderer.enabled }}
+  {{- $domain := .Values.clusterDomain }}
+  {{- $namespace := .Release.Namespace }}
+  GF_RENDERING_SERVER_URL: "http://{{ include "common.names.fullname" . }}-image-renderer.{{ $namespace }}.svc.{{ $domain }}:{{ .Values.imageRenderer.service.ports.imageRenderer }}/render"
+  GF_RENDERING_CALLBACK_URL: "http://{{ include "common.names.fullname" . }}.{{ $namespace }}.svc.{{ $domain }}:{{ .Values.service.ports.grafana }}/"
+  {{- end }}
+  {{- if .Values.plugins }}
+  GF_INSTALL_PLUGINS: {{ .Values.plugins | quote }}
+  {{- else }}
+  GF_INSTALL_PLUGINS: ""
+  {{- end }}
+  GF_PATHS_PLUGINS: "/opt/coredge/grafana/data/plugins"
+  GF_AUTH_LDAP_ENABLED: {{ .Values.ldap.enabled | quote }}
+  GF_AUTH_LDAP_CONFIG_FILE: "/opt/coredge/grafana/conf/ldap.toml"
+  GF_AUTH_LDAP_ALLOW_SIGN_UP: {{ .Values.ldap.allowSignUp | quote }}
+  GF_PATHS_PROVISIONING: "/opt/coredge/grafana/conf/provisioning"
+  GF_PATHS_CONFIG: "/opt/coredge/grafana/conf/grafana.ini"
+  GF_PATHS_DATA: "/opt/coredge/grafana/data"
+  GF_PATHS_LOGS: "/opt/coredge/grafana/logs"
+  ## Allow singup on Grafana dashboard
+  {{- if .Values.users.allowSignup }}
+  GF_USERS_ALLOW_SIGN_UP: 'True'
+  {{- else }}
+  GF_ALLOW_SIGN_UP: 'False'
+  {{- end }}
+  ## Modify Grafana Root URL...
+  GF_SERVER_ROOT_URL: {{ .Values.rootURL | quote }}
+  ## Grafana Auth Keycloak Envs....
+  {{- if .Values.auth.genericOAuth.enabled }}
+  GF_AUTH_GENERIC_OAUTH_ENABLED: 'True'
+  {{- if .Values.auth.genericOAuth.allowSignup }}
+  GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: 'True'
+  {{- else }}
+  GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: 'False'
+  {{- end }}
+  GF_AUTH_GENERIC_OAUTH_ALLOWED_ORGANIZATIONS: {{ .Values.auth.genericOAuth.allowedOrganizations | quote }}
+  GF_AUTH_GENERIC_OAUTH_ALLOW_ASSIGN_GRAFANA_ADMIN: {{ .Values.auth.genericOAuth.allowAssignGrafanaAdmin | quote }}
+  GF_AUTH_GENERIC_OAUTH_NAME: {{ .Values.auth.genericOAuth.name | quote }}
+  GF_AUTH_GENERIC_OAUTH_CLIENT_ID: {{ .Values.auth.genericOAuth.clientId | quote }}
+  GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: {{ .Values.auth.genericOAuth.secret | quote }}
+  GF_AUTH_GENERIC_OAUTH_SCOPES: {{ .Values.auth.genericOAuth.scopes | quote }}
+  GF_AUTH_GENERIC_OAUTH_AUTH_URL: {{ .Values.auth.genericOAuth.url }}/realms/grafana/protocol/openid-connect/auth
+  GF_AUTH_GENERIC_OAUTH_TOKEN_URL: {{ .Values.auth.genericOAuth.url }}/realms/grafana/protocol/openid-connect/token
+  GF_AUTH_GENERIC_OAUTH_API_URL: {{ .Values.auth.genericOAuth.url }}/realms/grafana/protocol/openid-connect/userinfo
+  GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: contains(roles[*], 'Admin') && 'Admin' || contains(roles[*], 'Editor') && 'Editor' || 'Viewer'
+  GF_AUTH_GENERIC_OAUTH_EMAIL_ATTRIBUTE_PATH: {{ .Values.auth.genericOAuth.emailAttributePath | quote }}
+  GF_AUTH_GENERIC_OAUTH_LOGIN_ATTRIBUTE_PATH: {{ .Values.auth.genericOAuth.loginAttributePath | quote }}
+  GF_AUTH_GENERIC_OAUTH_NAME_ATTRIBUTE_PATH: {{ .Values.auth.genericOAuth.nameAttributePath | quote }}
+  GF_AUTH_GENERIC_OAUTH_GROUPS_ATTRIBUTE_PATH: {{ .Values.auth.genericOAuth.groupsAttributePath | quote }}
+  {{- if .Values.auth.genericOAuth.roleAttributeStrict }}
+  GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_STRICT: 'True'
+  {{- else }}
+  GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_STRICT: 'False'
+  {{- end }}
+  {{- if .Values.auth.genericOAuth.tlsSkipVerifyInsecure }}
+  GF_AUTH_GENERIC_OAUTH_TLS_SKIP_VERIFY_INSECURE: 'True'
+  {{- else }}
+  GF_AUTH_GENERIC_OAUTH_TLS_SKIP_VERIFY_INSECURE: 'False'
+  {{- end }}
+  {{- if .Values.auth.genericOAuth.skipOrgRoleSync }}
+  GF_AUTH_GENERIC_OAUTH_SKIP_ORG_ROLE_SYNC: 'True'
+  {{- else }}
+  GF_AUTH_GENERIC_OAUTH_SKIP_ORG_ROLE_SYNC: 'True'
+  {{- end }}
+  ## Signout URL
+  GF_AUTH_SIGNOUT_REDIRECT_URL: {{ .Values.auth.genericOAuth.signoutRedirectURL | quote }}
+  {{- else }}
+  GF_AUTH_GENERIC_OAUTH_ENABLED: 'False'
+  {{- end }}

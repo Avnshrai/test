@@ -1,0 +1,7 @@
+# Copyright Coredge, Inc.
+# SPDX-License-Identifier: APACHE-2.0
+
+## It is required by CI/CD tools and processes.
+## @skip exampleValue
+##
+exampleValue: common-chart
